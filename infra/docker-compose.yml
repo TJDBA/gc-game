@@ -1,0 +1,38 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: gc_postgres
+    environment:
+      POSTGRES_USER: gc_user
+      POSTGRES_PASSWORD: gc_password
+      POSTGRES_DB: galactic_conquest
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U gc_user -d galactic_conquest"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    container_name: gc_backend
+    environment:
+      DATABASE_URL: postgresql+psycopg://gc_user:gc_password@postgres:5432/galactic_conquest
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+    command: >
+      uvicorn app.main:app
+      --host 0.0.0.0
+      --port 8000
+      --reload
+
+volumes:
+  pgdata:

@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+.env
+.env.example
+
+# Alembic
+alembic/versions/__pycache__/
+
+# Docker
+**/pgdata/
+**/*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/
+.idea/
