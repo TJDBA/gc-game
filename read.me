@@ -1,0 +1,209 @@
+Below is a clean, production-ready **README.md** suitable for the root of the Git repository. It assumes the project is **Galactic Conquest / Galaxy Conquerors**, uses **Docker-first workflows**, and supports **local + containerized dev** without ambiguity.
+
+You can paste this directly into `README.md`.
+
+---
+
+# Galactic Conquest (Working Title)
+
+A modern digital adaptation of the classic 1970s strategy board game *Galactic Conquest*, rebuilt as a scalable, asynchronous, multiplayer-ready system.
+
+This project prioritizes:
+
+* Deterministic game logic
+* Automation of complex bookkeeping
+* Long-term maintainability
+* Clear separation between game rules, simulation, and UI
+
+The repository is structured to support **both containerized and local development workflows**, with Docker as the authoritative runtime.
+
+---
+
+## Project Goals
+
+* Faithful recreation of core Galactic Conquest mechanics
+* Automation of:
+
+  * Population growth
+  * Resource production
+  * Fleet movement & scanning
+  * Combat resolution
+* Support for:
+
+  * Hotseat / async multiplayer
+  * AI opponents
+  * Future networked play
+* Engine-agnostic backend logic (Godot is a client, not the rules engine)
+
+---
+
+## Tech Stack
+
+### Core
+
+* **Python 3.12**
+* **Docker / Docker Compose** (primary runtime)
+* **Pytest** for test coverage
+* **Makefile** for common workflows
+
+### Client (Planned / In Progress)
+
+* **Godot 4.x** (UI + visualization)
+* Thin client consuming validated game state
+
+---
+
+## Repository Structure
+
+```text
+gc-game/
+│
+├── src/                    # Core game logic
+│   ├── engine/             # Rules, turns, resolution
+│   ├── models/             # Game entities (players, fleets, planets)
+│   ├── services/           # Turn processing, validation, automation
+│   └── utils/              # Shared helpers
+│
+├── tests/                  # Pytest test suite
+│
+├── docker/
+│   ├── Dockerfile
+│   └── docker-compose.yml
+│
+├── scripts/                # Dev & maintenance scripts
+│
+├── docs/                   # Design docs, rules, notes
+│
+├── Makefile
+├── pyproject.toml
+└── README.md
+```
+
+---
+
+## Development Philosophy (Important)
+
+**Docker is the source of truth.**
+
+Local virtual environments (`.venv`) are supported for editor tooling and quick iteration, but:
+
+* If it works locally and fails in Docker, it is **broken**
+* CI and all reproducible builds use Docker
+* Python versions, dependencies, and behavior must match the container
+
+This avoids:
+
+* “Works on my machine” bugs
+* Apple Silicon vs x86 inconsistencies
+* Hidden dependency drift
+
+---
+
+## Option A: Docker-First Workflow (Recommended)
+
+### Prerequisites
+
+* Docker Desktop (Apple Silicon supported)
+* Git
+
+### Build the environment
+
+```bash
+make build
+```
+
+### Run tests
+
+```bash
+make test
+```
+
+### Run an interactive shell
+
+```bash
+make shell
+```
+
+This is the **canonical workflow** and the one used for CI and validation.
+
+---
+
+## Option B: Local Python Workflow (Supported, Not Authoritative)
+
+Use this **only** for IDE tooling, autocomplete, or rapid iteration.
+
+### Create venv
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+```
+
+### Install dependencies
+
+```bash
+pip install -e .[dev]
+```
+
+### Run tests
+
+```bash
+pytest
+```
+
+Before committing or pushing:
+
+```bash
+make test
+```
+
+If Docker fails, the change does not ship.
+
+---
+
+## Testing Standards
+
+* All game logic must be covered by tests
+* Tests should validate **state transitions**, not UI
+* Deterministic outcomes only (no randomness without seeded control)
+* Regression tests are mandatory for bug fixes
+
+---
+
+## Contribution Rules
+
+* No logic in the client that affects game state
+* No UI assumptions in the engine
+* Prefer explicit state machines over implicit flags
+* Favor readability over cleverness
+* Add tests with every non-trivial change
+
+---
+
+## Roadmap (High Level)
+
+* [ ] Core turn engine
+* [ ] Population & resource automation
+* [ ] Fleet movement + scanning
+* [ ] Combat resolution
+* [ ] Serialization / save-state
+* [ ] Godot client integration
+* [ ] Async multiplayer support
+
+---
+
+## Naming Notes
+
+You may see references to:
+
+* **Galactic Conquest**
+* **Galaxy Conquerors**
+
+These are interchangeable working titles pending final branding.
+
+---
+
+## License
+
+TBD
+All rights reserved unless otherwise specified.
