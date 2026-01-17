@@ -108,8 +108,8 @@ def calc_scan_base(scanning_tech: int) -> int:
 
 
 def calc_long_range(scanning_tech: int) -> int:
-    """Calculate LONG scan range: scan_base * 2."""
-    return calc_scan_base(scanning_tech) * 2
+    """Calculate LONG scan range: scan_base * 2 + 2. Base Rang of 4 hexes"""
+    return calc_scan_base(scanning_tech) * 2 + 2
 
 
 def calc_medium_range(scanning_tech: int) -> int:
