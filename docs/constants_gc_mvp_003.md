@@ -93,7 +93,7 @@ Example at tech level 1:
 
 **Functions provided:**
 - `calc_scan_base(scanning_tech)` — Returns scanning_tech
-- `calc_long_range(scanning_tech)` — Returns scan_base * 2
+- `calc_long_range(scanning_tech)` — Returns scan_base * 2 + 2
 - `calc_medium_range(scanning_tech)` — Returns scan_base
 - `calc_short_range(scanning_tech)` — Returns scanning_tech // 2
 
